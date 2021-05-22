@@ -13,11 +13,14 @@ def plot_sentence_length_stopwords(X, series):
     plt.show()
     
 def plot_mean_grade_distribution(modified_train_df):
-    sns.histplot(modified_train_df.meanGrade, kde=True, color = 'grey')
-    plt.show()
+    modified_train_df.meanGrade.hist( color = 'grey', bins=30, grid =False)
+    plt.xlabel('Mean Grade')
+    plt.ylabel('Count')
     
 def plot_number_characters(modified_train_df):
-    modified_train_df.edited.str.len().hist(color='grey')
+    modified_train_df.edited.str.len().hist(color='grey', grid=False)
+    plt.xlabel('Characters per sentence')
+    plt.ylabel('Count')
     plt.show()
     
 def plot_number_words(modified_train_df):
