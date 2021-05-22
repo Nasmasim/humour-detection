@@ -1,6 +1,4 @@
-from nltk.util import ngrams
 from sklearn.feature_extraction.text import CountVectorizer
-
 
 # get the top n_grams
 def get_top_ngram(corpus, n=None):
@@ -11,3 +9,4 @@ def get_top_ngram(corpus, n=None):
                   for word, idx in vec.vocabulary_.items()]
     words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
     return words_freq[:10]
+

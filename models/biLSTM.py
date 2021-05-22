@@ -35,4 +35,5 @@ class BiLSTM(nn.Module):
             embedded.view(len(embedded), self.batch_size, self.embedding_dim), self.hidden)
 
         out = self.hidden2label(lstm_out[-1])
+        
         return out

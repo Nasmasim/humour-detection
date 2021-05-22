@@ -1,9 +1,3 @@
-#################
-#
-# PREPROCESSING
-#
-#################
-
 import copy 
 import re
 
@@ -69,7 +63,6 @@ def full_sentence_preprocessing(s):
     s = re.sub(r'\s+', ' ', s).strip()
     return s
 
-
 def create_custom_vocab(data,stopwords=[]):
     """
     - Remove stop words in data
@@ -112,3 +105,7 @@ def dataset_question_full_processing(df):
   if 'grades' in df.columns:
     df = df.drop(['grades'],axis=1)
   return df
+
+
+
+    

@@ -1,11 +1,19 @@
+from __future__ import absolute_import
+
+import torch
+import numpy as np
+
+from utils.metrics import model_performance
+
 #@title Bert training function (bert_train)
 def bert_train(optimizer, 
                train_iter, 
                dev_iter, 
                model,
-               loss_fn, 
+               loss_fn,
+               device,
+               number_epoch,
                model_name="approach1_model.pt",
-               number_epoch=epochs,  
                patience=4):
     """
     Training loop for the model, which calls on eval to evaluate after each epoch
@@ -42,7 +50,7 @@ def bert_train(optimizer,
             epoch_loss += loss.item()*target.shape[0]
             epoch_sse += sse
 
-        valid_loss, valid_mse, __, __ = bert_eval(dev_iter, model)
+        valid_loss, valid_mse, __, __ = bert_eval(dev_iter, model, device, loss_fn)
         epoch_loss, epoch_mse = epoch_loss / no_observations, epoch_sse / no_observations
         
         train_rmse.append(epoch_mse**0.5)
@@ -67,7 +75,7 @@ def bert_train(optimizer,
 
 
 #@title Bert eval function (bert_eval)
-def bert_eval(data_iter, model):
+def bert_eval(data_iter, model, device, loss_fn):
     """
     Evaluate model performance on the dev set
     params:

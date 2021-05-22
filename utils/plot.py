@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
-def plot_sentece_length_stopwords(X, series):
+def plot_sentence_length_stopwords(X, series):
     plt.plot(X, series[0],label="no stop words")
     plt.plot(X, series[1],label="simple")
     plt.plot(X, series[2],label="custom")

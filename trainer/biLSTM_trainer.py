@@ -1,29 +1,17 @@
-from .utils.utils_metrics import model_performance
+from __future__ import absolute_import
 
-from torch.utils.data import Dataset
+import torch
+import numpy as np
 
-#@title Dataset definition
-class Task1Dataset(Dataset):
+from utils.metrics import model_performance
 
-    def __init__(self, train_data, labels):
-        self.x_train = train_data
-        self.y_train = labels
-
-    def __len__(self):
-        return len(self.y_train)
-
-    def __getitem__(self, item):
-        return self.x_train[item], self.y_train[item]
-
-#@title RNN training function (train)
-# We define our training loop
-def train(train_iter, dev_iter, model, number_epoch):
+#@title RNN train function (train)
+def biLSTM_train(train_iter, dev_iter, model, number_epoch, device, optimizer, loss_fn):
     """
     Training loop for the model, which calls on eval to evaluate after each epoch
     """
     
     print("Training model.")
-
     for epoch in range(1, number_epoch+1):
 
         model.train()
@@ -34,7 +22,6 @@ def train(train_iter, dev_iter, model, number_epoch):
         for batch in train_iter:
 
             feature, target = batch
-
             feature, target = feature.to(device), target.to(device)
 
             # for RNN:
@@ -43,11 +30,9 @@ def train(train_iter, dev_iter, model, number_epoch):
             model.hidden = model.init_hidden()
 
             predictions = model(feature).squeeze(1)
-
             optimizer.zero_grad()
-
+            
             loss = loss_fn(predictions, target)
-
             sse, __ = model_performance(predictions.detach().cpu().numpy(), target.detach().cpu().numpy())
 
             loss.backward()
@@ -56,7 +41,7 @@ def train(train_iter, dev_iter, model, number_epoch):
             epoch_loss += loss.item()*target.shape[0]
             epoch_sse += sse
 
-        valid_loss, valid_mse, __, __ = eval(dev_iter, model)
+        valid_loss, valid_mse, __, __ = biLSTM_eval(dev_iter, model, device, loss_fn)
 
         epoch_loss, epoch_mse = epoch_loss / no_observations, epoch_sse / no_observations
         print(f'| Epoch: {epoch:02} | Train Loss: {epoch_loss:.2f} | Train MSE: {epoch_mse:.2f} | Train RMSE: {epoch_mse**0.5:.2f} | \
@@ -64,7 +49,7 @@ def train(train_iter, dev_iter, model, number_epoch):
         
 #@title RNN eval function (eval)
 # We evaluate performance on our dev set
-def eval(data_iter, model):
+def biLSTM_eval(data_iter, model, device, loss_fn):
     """
     Evaluating model performance on the dev set
     """
@@ -78,7 +63,6 @@ def eval(data_iter, model):
     with torch.no_grad():
         for batch in data_iter:
             feature, target = batch
-
             feature, target = feature.to(device), target.to(device)
 
             # for RNN:

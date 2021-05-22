@@ -1,3 +1,11 @@
+import torch.nn as nn 
+import torch.nn.functional as F
+
+from transformers import BertModel
+
+# Bert download
+bert_model = BertModel.from_pretrained('bert-base-uncased')
+
 #@title Bert-CNN (CNN)
 class CNN(nn.Module):
   def __init__(self, out_channels, window_size=[5, 3], 
@@ -14,24 +22,20 @@ class CNN(nn.Module):
     self.conv2 = nn.Conv2d(
         in_channels=out_channels[0], 
         out_channels=out_channels[1],
-        kernel_size=(window_size[1], 1)  
-    )
+        kernel_size=(window_size[1], 1))
     self.dropout = nn.Dropout(dropout_prob)
 
     # the output layer
     self.output = nn.Sequential(
         nn.Linear(out_channels[-1], 1),
-        nn.ReLU()
-    )
-    
-        
+        nn.ReLU())
+           
   def forward(self, bert_id, bert_attn): 
     embedded = bert_model(input_ids=bert_id, attention_mask=bert_attn)[0]
     # Add one channel in order to use conv2d
     embedded = embedded.unsqueeze(1)
     feature_maps = self.conv1(embedded)
     feature_maps = F.relu(feature_maps)
-
     feature_maps = self.conv2(feature_maps)
     feature_maps = F.relu(feature_maps)
     # We reduced the last dimension (embedding dim) to one

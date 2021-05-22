@@ -1,3 +1,11 @@
+import torch.nn as nn
+import torch
+
+from transformers import BertModel
+
+# Bert download
+bert_model = BertModel.from_pretrained('bert-base-uncased')
+
 #@title Bert-FFNN (FFNN)
 class FFNN(nn.Module):
     def __init__(self, hidden_dim=[128, 64, 32], embedding_dim=768):  
@@ -22,8 +30,10 @@ class FFNN(nn.Module):
         
     def forward(self, bert_id, bert_attn):
         embedded = bert_model(input_ids=bert_id, attention_mask=bert_attn)[0]
+        
         # We want to use one vector (len=768) to represent one sentence
         ffnn_input, _ = torch.max(embedded, dim=1, keepdim=False)
         ffnn_output = self.ffnn(ffnn_input)
         out = self.output(ffnn_output)
+        
         return out
