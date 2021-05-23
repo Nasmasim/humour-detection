@@ -46,23 +46,23 @@ def plot_top_ngrams(top_n_bigrams):
     plt.ylabel('Bigrams')
     plt.show()
     
-def plot_loss_vs_epochs(question_train_losses_ff, question_valid_losses_ff, 
-                        full_train_losses_ff,full_valid_losses_ff ):
+def plot_loss_vs_epochs(question_train_losses, question_valid_losses, 
+                        full_train_losses,full_valid_losses, title):
     sns.set_style("whitegrid")
-    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(16, 6), sharey=True)
-    axes[0].plot(question_train_losses_ff, label="Question preprocessing training RMSE")
-    axes[0].plot(question_valid_losses_ff, label="Question preprocessing validation RMSE")
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5), sharey=True)
+    axes[0].plot(question_train_losses, label="Question preprocessing training", color='black')
+    axes[0].plot(question_valid_losses, label="Question preprocessing validation", color='red')
     axes[0].set_xlabel("Epochs")
     axes[0].set_ylabel("RMSE")
     axes[0].legend()
     
     
-    axes[1].plot(full_train_losses_ff, label="Full preprocessing training RMSE")
-    axes[1].plot(full_valid_losses_ff, label="Full preprocessing validation RMSE")
+    axes[1].plot(full_train_losses, label="Full preprocessing training", color='black')
+    axes[1].plot(full_valid_losses, label="Full preprocessing validation", color='red')
     axes[1].set_xlabel("Epochs")
     axes[1].set_ylabel("RMSE")
     axes[1].legend()
-    plt.suptitle("Loss Curves: BERT with FFNN")
+    plt.suptitle(title)
     
-    plt.savefig("FFNN_loss.png")
+    plt.savefig('./results/'+title+".png")
     plt.show() 
