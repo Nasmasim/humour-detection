@@ -8,5 +8,6 @@ def get_top_ngram(corpus, n=None):
     words_freq = [(word, sum_words[0, idx]) 
                   for word, idx in vec.vocabulary_.items()]
     words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
+    
     return words_freq[:10]
 

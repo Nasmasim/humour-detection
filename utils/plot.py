@@ -55,8 +55,7 @@ def plot_loss_vs_epochs(question_train_losses, question_valid_losses,
     axes[0].set_xlabel("Epochs")
     axes[0].set_ylabel("RMSE")
     axes[0].legend()
-    
-    
+      
     axes[1].plot(full_train_losses, label="Full preprocessing training", color='black')
     axes[1].plot(full_valid_losses, label="Full preprocessing validation", color='red')
     axes[1].set_xlabel("Epochs")

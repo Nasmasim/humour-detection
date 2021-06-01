@@ -73,7 +73,6 @@ def bert_train(optimizer,
           break 
     return train_rmse, valid_rmse  
 
-
 #@title Bert eval function (bert_eval)
 def bert_eval(data_iter, model, device, loss_fn):
     """

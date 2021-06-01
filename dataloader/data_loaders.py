@@ -75,7 +75,6 @@ def get_dataloaders(input_data,
     return train_loader, dev_loader
 
 # Data loaders for both train and validation dataset (dev or test)
-
 def get_dataloaders_no_random_split(input_data_train, 
                                     targets_train, 
                                     input_data_valid,

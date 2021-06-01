@@ -94,7 +94,6 @@ def create_custom_vocab(data,stopwords=[]):
     word2idx = {w: idx+1 for (idx, w) in enumerate(vocabulary)}
     # reserve the firtst index (0) for the padding token
     word2idx['<pad>'] = 0
-
     return vocabulary, tokenized_corpus, word2idx
 
 # Applying both question and full version to any dataframe and dropping useless values
@@ -124,8 +123,7 @@ def get_stop_words():
                   'they', 'they\'d', 'they\'ll', 'they\'re', 'they\'ve', 'this', 'those', 'through', 'to', 'too', 'under', 'until', 'up', 'very', 'was', 'wasn\'t',
                   'we', 'we\'d', 'we\'ll', 'we\'re', 'we\'ve', 'were', 'weren\'t', 'what', 'what\'s', 'when', 'when\'s', 'where', 'where\'s', 'which',
                   'while', 'who', 'who\'s', 'whom', 'why', 'why\'s', 'with', 'won\'t', 'would', 'wouldn\'t', 'you', 'you\'d', 'you\'ll', 'you\'re',
-                  'you\'ve', 'your', 'yours', 'yourself', 'yourselves']
-    
+                  'you\'ve', 'your', 'yours', 'yourself', 'yourselves']    
     return simple_stopwords, custom_stopwords
 
 

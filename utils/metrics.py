@@ -5,7 +5,6 @@ def model_performance(output, target, print_output=False):
     """
     Returns SSE and MSE per batch (printing the MSE and the RMSE)
     """
-
     sq_error = (output - target)**2
 
     sse = np.sum(sq_error)
